@@ -42,4 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     });
+
+    document.querySelector('#cancel').addEventListener('click', ()=>{
+        document.querySelector('#myForm').reset();
+    })
 });
