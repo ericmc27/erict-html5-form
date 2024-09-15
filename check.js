@@ -6,44 +6,40 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs = inputs.slice(0, inputs.length - 4);
         let cards = Array.from(document.querySelectorAll('input[name="choose-card"]'));
 
-        inputsCheck = true;
-        cardsCheck = false;
+        inputsCheck = inputs.every(input => input.value.trim() !== '');
+        cardsCheck = cards.some(card => card.checked);
 
-        for (let input of inputs) {
-            if (input.value) {
-                continue;
-            }
-            else {
-                inputsCheck = false;
-                break;
-            }
-        }
-
-        for (let card of cards) {
-            if (card.checked) {
-                cardsCheck = true;
-                break;
-            }
-        }
 
         let target = document.querySelector('.d-none');
-        target.classList.remove('d-none');
-        target.classList.add('alert');
+
+        if(target){
+            target.classList.remove('d-none');
+        }
+        else if (!target){
+             target = document.querySelector('.alert-danger');
+
+             if (inputsCheck && cardsCheck){
+                 if (target){
+                    target.classList.remove('alert-danger');
+                    target.classList.add('alert-success');
+                    target.textContent = "Congratulations, your transaction was processed successfully!";
+                 }
+             }
+        }
 
         if (inputsCheck && cardsCheck) {
-            target.classList.add('alert-success');
+            target.classList.add('alert', 'alert-success');
             target.textContent = "Congratulations, your transaction was processed successfully!";
         }
         else {
-            target.classList.add('alert-danger');
+            target.classList.add('alert', 'alert-danger');
             target.textContent = "Some fields are missing";
-
+           
             setTimeout(() => {
                 target.classList.add('d-none');
                 target.classList.remove('alert', 'alert-danger');
-            }, 5000);
+            }, 10000);
         }
-
+        
     });
 });
-
